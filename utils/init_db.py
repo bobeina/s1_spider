@@ -7,7 +7,7 @@ from src.db import PgDB
 
 
 def main():
-    db = PgDB(user="s1recorder", password="This_is_your_passwd")
+    db = PgDB(user="s1recorder", password="This_is_your_pwd_understand?")
     db.create_tables()
     db.conn.close()
 
