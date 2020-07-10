@@ -9,7 +9,7 @@ db 用的 PostgreSQL，自己建库吧，表名用户名能不能改我忘记了
 
 则 thread_id 为 334540
 
-**两个配置文件：**
+**两个需要自行设置的配置文件：**
 
 - config/config.ini
 
