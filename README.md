@@ -22,3 +22,7 @@ db 用的 PostgreSQL，自己建库吧，表名用户名能不能改我忘记了
 - config/s1_account.ini
 
 用不用随意，用于存储登录网站的用户名/密码。
+
+**UI使用Qt 5 Creator编辑。**
+
+**docs中的流程图只是个草稿，使用MindMaster编辑。**
