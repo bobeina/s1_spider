@@ -16,7 +16,7 @@ class RawToDB:
         self.pgdb = None
 
     def init_spider(self,
-                    origin_url='https://bbs.saraba1st.com/2b/',
+                    origin_url=None,
                     driver_path=r'/home/aliao/mydoc/projects/webdrivers/',
                     driver='chromedriver',
                     user_agent_str='user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 \
@@ -75,18 +75,30 @@ class RawToDB:
         return post, scores, author_info
 
     # thread_id = '793032'  # 置顶帖
-    def crawling(self, thread_id, usernm=None, pwd=None):
+    def crawling(self, thread_id, usernm=None, pwd=None, continue_flag=False):
         print('RawToDB.crawling() start')
         if usernm is None or pwd is None:
             print('Please set an account with pwd for crawling.')
             return False
         if self.extractor is None:
             self.init_website_with_cookie()
+        time.sleep(3)
         if not self.extractor.is_login():
             self.extractor.auto_login(usernm=usernm, pwd=pwd)
         time.sleep(1)
         counter = 0
-        gen_func = self.extractor.parse_thread(thread_id)
+        if continue_flag:
+            post_num = self.pgdb.get_thread_posts_num(thread_id)
+            little_tail = post_num % 30
+            page = int(post_num / 30) +1
+            if little_tail == 0:
+                page += 1
+            last_post_id = self.pgdb.get_last_post_id(thread_id) #, post_num, page)
+
+            gen_func = self.extractor.continue_thread(thread_id, last_post_id, page)
+            # 从数据库中获取该帖总数
+        else:
+            gen_func = self.extractor.parse_thread(thread_id)
         for page in gen_func:
             print('counter: ', counter)
             for raw_post in page:

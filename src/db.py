@@ -153,6 +153,20 @@ class PgDB:
         sql_str = "INSERT INTO raw_author_info (author_id, author) VALUES (%s,%s) ON CONFLICT (author_id) DO NOTHING"
         self.cursor.execute(sql_str, data)
 
+    def get_thread_posts_num(self, thread_id):
+        sql_str = "SELECT COUNT(*) FROM (SELECT DISTINCT post_id FROM raw_post WHERE thread_id=%s) AS temp;"
+        self.cursor.execute(sql_str, (thread_id,))
+        result = self.cursor.fetchone()
+        print('get_thread_posts_num() result: ', result)
+        return result[0]
+
+    def get_last_post_id(self, thread_id):
+        sql_str = "SELECT MAX(post_id) FROM raw_post WHERE thread_id=%s" # AS temp;"
+        self.cursor.execute(sql_str, (thread_id,))
+        result = self.cursor.fetchone()
+        print('get_last_post_id() result: ', result)
+        return result[0]
+
     def del_raw_post(self):
         pass
 

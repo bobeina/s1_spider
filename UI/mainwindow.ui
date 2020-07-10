@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>922</width>
-    <height>719</height>
+    <height>797</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,7 +76,7 @@
      <string>更新列表中所有帖子</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonRenew">
+   <widget class="QPushButton" name="pushButtonRenewSelected">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -149,6 +149,42 @@
     </property>
     <property name="text">
      <string>密码：</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonRenewByID">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>710</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>更新</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_renew_id">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>710</y>
+      <width>151</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>710</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>待更新的帖子id:</string>
     </property>
    </widget>
   </widget>

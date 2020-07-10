@@ -14,6 +14,7 @@ from PySide2.QtCore import QFile, QIODevice, Slot
 
 from src.raw2db import RawToDB
 from src.mainwindow import *
+from src.load_cfg import load_cfg
 
 
 class MyInterFace:
@@ -24,15 +25,35 @@ class MyInterFace:
         # self.main_window.create_sub_widgets()
         self.main_window.bind_events()
         # 爬虫初始化
+        #读取测试用的s1用户名
+        # s1_account_cfg = load_cfg('s1_account.ini')
+        # if len(s1_account_cfg) == 0 or 'user' not in s1_account_cfg or 'pwd' not in s1_account_cfg:
+        #     username = input("Please input your username for s1: ")
+        #     pwd = input("Please input your pwd for s1: ")
+        #     if len(username) == 0 or len(pwd) == 0:
+        #         return
+        # else:
+        #     username = s1_account_cfg['user']
+        #     pwd = s1_account_cfg['pwd']
+
+        # 读取爬引擎及数据库相关信息
+        config_file = 'config.ini'
+        cfg = load_cfg(config_file)
+        if len(cfg) == 0:
+            print("唉你说的这个文件 {file} 有点问题啊……".format(file=config_file))
+            return
         spider = RawToDB()
-        spider.init_db(user="s1recorder", password="RnaM379X62")
+        spider.init_db(user=cfg['pgdb_user'], password=cfg['pgdb_pwd'])
         # 数据库初始化
-        parent_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-        origin_url = "https://bbs.saraba1st.com/2b/forum-75-1.html"
-        spider.init_spider(origin_url=origin_url, driver='geckodriver', headless=False)
+        spider.init_spider(origin_url=cfg['start_page'],
+                           driver_path=cfg['driver_path'],
+                           driver=cfg['driver'],
+                           user_agent_str=cfg['user_agent_str'],
+                           headless=False)
         self.main_window.get_db_and_spider_handles(spider)
 
     def init_threads(self):
+        # todo 施工中，待修改为多进程版本——界面不单开进程会卡住，目前先凑合 2020/07/10
         self.que = Queue()
         # p_msg_main = Process(target=self.main, args=(q,))
         self.p_msg_reciever = Process(target=self.message_reciver, args=(self.que,))

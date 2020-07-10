@@ -384,7 +384,6 @@ class S1PostsInfoExtractor:
         post_title = self.extract_post_title(post)
         scores = []
         has_score = self.if_post_has_score(post)
-        # print('has_score: ', has_score)
         if has_score == True:
             scores = self.load_post_scores_page(thread_id, post_id)
         rvalue = {
@@ -400,10 +399,6 @@ class S1PostsInfoExtractor:
             'edited_time': edited_time,
             'scores': scores
         }
-        # print('=======================post=======================')
-        # print(post.get_attribute('innerHTML'))
-        # print('----------------------parsed----------------------')
-        # print(rvalue)
         return rvalue
 
     def parse_page(self, thread_id, page_index, gt=None, lt=None):
@@ -423,7 +418,6 @@ class S1PostsInfoExtractor:
 
         bvalue = self.load_page_with_cookie(url)
 
-        # posts = self.browser.find_elements_by_class_name('plhin')
         posts = self.browser.find_elements_by_xpath('//div[@id="postlist"]/div/table[@class="plhin"]')
 
         # 帖子结构：id thread_id post_id raw_content author_id author post_time modified_flag save_time
@@ -493,7 +487,8 @@ class S1PostsInfoExtractor:
 
         url = "https://bbs.saraba1st.com/2b/thread-{tid}-{page}-1.html".format(
             tid=thread_id,
-            page=page
+            # page=page
+            page=1
         )
         self.origin_url = url
         self.load_page_with_cookie(url)
@@ -504,8 +499,8 @@ class S1PostsInfoExtractor:
         if not bvalue:
             print('Get page index failed. Exit.')
             return None
-        if self.page_num < page:
-            return
+        # if self.page_num < page:
+        #     return
 
         print('Total page: ', self.page_num)
 
