@@ -15,7 +15,7 @@ db 用的 PostgreSQL，自己建库吧，表名用户名能不能改我忘记了
 
 用于设置数据库配置、用户名及密码信息；
 
-爬虫基于selenium，引擎使用Firefox。
+爬虫基于selenium，引擎使用Firefox，需要安装**geckodriver**。
 
 免窗口模式未测试。另外还有关于检测是否登录入自动登录的偶发性bug未修。
 
