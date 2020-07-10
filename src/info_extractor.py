@@ -23,11 +23,10 @@ class S1PostsInfoExtractor:
     """
 
     def __init__(self,
-                 origin_url='https://bbs.saraba1st.com/2b/',
-                 driver_path=r'/home/aliao/mydoc/projects/webdrivers/',
-                 driver='chromedriver',
-                 user_agent_str='user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 \
-(KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"',
+                 origin_url=None,
+                 driver_path=None,
+                 driver=None,
+                 user_agent_str=None,
                  headless=True
                  ):
         self.origin_url = origin_url
@@ -57,11 +56,9 @@ class S1PostsInfoExtractor:
         self.cookies = None
         self.page_num = 0
         # 设cookie前要先读一个页面
-        # self.load_page('https://static.saraba1st.com/image/s1/logo.png')
         self.load_page('https://bbs.saraba1st.com/2b/')
 
         # 开一个新tab用于查找帖子加扣鹅情况
-
         self.main_tab = self.browser.current_window_handle
         print('crnt page(before): ', self.browser.current_window_handle)
         self.browser.execute_script("window.open('about:blank');")
@@ -81,12 +78,13 @@ class S1PostsInfoExtractor:
         print('crnt page: ', self.browser.current_window_handle)
         print('switching to main...')
         self.browser.switch_to.window(self.main_tab)
-        time.sleep(3)
+        time.sleep(1)
 
     def auto_login(self, usernm=None, pwd=None):
         if usernm is None or pwd is None:
             print('Sorry, usernm/pwd cannot be None with auto_login().')
             return
+        # todo 网络不太稳定时偶尔会出错，待修
         usernm_dom = self.browser.find_element_by_id('ls_username')
         pwd_dom = self.browser.find_element_by_id('ls_password')
         send_dom = self.browser.find_element_by_xpath('//button[@class="pn vm"]')
@@ -116,13 +114,12 @@ class S1PostsInfoExtractor:
             print('No cookie for current page.')
             return False
         for c in self.cookies:
-            # 好像不能用了……暂时保留
+            # 暂时保留
             # if 'expiry' in c:
             #     del c['expiry']
             # print(c)
             self.browser.add_cookie(c)
         if current_tab is None:
-            # if self.browser.current_window_handle != self.main_tab:
             self.browser.switch_to.window(self.main_tab)
         else:
             self.browser.switch_to.window(current_tab)
@@ -130,7 +127,6 @@ class S1PostsInfoExtractor:
         time.sleep(3)
 
         # # 刷新页面
-        # self.browser.refresh()
         bvalue = self.browser.get(url)
         return True
 
@@ -216,7 +212,6 @@ class S1PostsInfoExtractor:
             return None, None
         author_nick = raw_author_info.text
         raw_author_id = raw_author_info.get_attribute("href")
-        # print('raw_author_id: ', raw_author_id)
         pattern_aid = re.compile(r'space-uid-(\d+)', re.IGNORECASE)
         author_id = pattern_aid.search(raw_author_id)
         return author_id.group(1), author_nick

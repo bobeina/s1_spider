@@ -4,7 +4,6 @@ main.py
 2020 06/16 17:53
 """
 from multiprocessing import Process, Queue
-import os, time, random
 import json
 
 import sys

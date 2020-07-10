@@ -17,10 +17,9 @@ class RawToDB:
 
     def init_spider(self,
                     origin_url=None,
-                    driver_path=r'/home/aliao/mydoc/projects/webdrivers/',
-                    driver='chromedriver',
-                    user_agent_str='user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 \
-                    (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"',
+                    driver_path=None,
+                    driver=None,
+                    user_agent_str=None,
                     headless=True):
         """爬虫初始化"""
         print('RawToDB.init_spider() driver_path: ', driver_path)
@@ -35,8 +34,8 @@ class RawToDB:
 
     def init_db(self,
                 database="s1_raw_doc",
-                 user=None,
-                 password=None,
+                user=None,
+                password=None,
                 host="localhost",
                 port="5432"):
         """数据库初始化"""
@@ -50,8 +49,6 @@ class RawToDB:
 
     def init_website_with_cookie(self):
         self.parent_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-        # origin_url = "https://bbs.saraba1st.com/2b/forum-75-1.html"
-        # self.extractor = S1PostsInfoExtractor(origin_url=origin_url, driver_path=self.parent_dir, driver='geckodriver', headless=False)
         cookie_name = 'saraba1st.com.firefox.77.0.1.json'
         cookie_file = os.path.join(self.parent_dir, 'cookies', cookie_name)
         self.extractor.load_cookies_from_file(cookie_file)

@@ -1,5 +1,5 @@
 # s1_spider
-db 用的 PostgreSQL，自己建库吧，表名用户名能不能改我忘记了。
+db 用的 PostgreSQL，自己建库吧，表名用户名能不能改我忘记了。**创建表**：utils/init_db.py
 
 **基本功能**：接收指定的 thread_id（帖子id），然后爬取该帖拆开按回复存放到数据库中。
 
