@@ -9,8 +9,8 @@ from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QFile, QIODevice, Slot
 from PySide2.QtGui import QStandardItemModel, QStandardItem
 
-from src.ABSBTWidget import ABSBTWidget
-from src.bt_errors import LoadUIFailError
+from ABSBTWidget import ABSBTWidget
+from bt_errors import LoadUIFailError
 
 # windows
 # from source_path_window import SourcePathWindow
@@ -47,8 +47,8 @@ class MainWindow(ABSBTWidget):
             pwd = self.handle.lineEditPwd.text()
 
             if raw_thread_id is not None and usernm is not None and pwd is not None:
-                print('论坛 nick: ', usernm)
-                print('论坛 pwd: ', pwd)
+                # print('论坛 nick: ', usernm)
+                # print('论坛 pwd: ', pwd)
                 print('论坛 thread: ', raw_thread_id)
                 self.spider.crawling(raw_thread_id, usernm=usernm, pwd=pwd)
         except Exception as e:
@@ -91,3 +91,7 @@ class MainWindow(ABSBTWidget):
         self.handle.pushButtonRenewByID.clicked.connect(self.renew_thread)
 
         # todo
+
+    def auto_fill_user_info(self, user, pwd):
+        self.handle.lineEditUser.setText(user)
+        self.handle.lineEditPwd.setText(pwd)

@@ -6,8 +6,8 @@ raw2db.py
 import os
 import time
 import datetime
-from src.info_extractor import S1PostsInfoExtractor
-from src.db import PgDB
+from info_extractor import S1PostsInfoExtractor
+from db import PgDB
 
 
 class RawToDB:

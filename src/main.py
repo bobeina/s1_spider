@@ -6,14 +6,15 @@ main.py
 from multiprocessing import Process, Queue
 import json
 
+import os
 import sys
 # from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QApplication
 from PySide2.QtCore import QFile, QIODevice, Slot
 
-from src.raw2db import RawToDB
-from src.mainwindow import *
-from src.load_cfg import load_cfg
+from raw2db import RawToDB
+from mainwindow import *
+from load_cfg import load_cfg
 
 
 class MyInterFace:
@@ -50,6 +51,9 @@ class MyInterFace:
                            user_agent_str=cfg['user_agent_str'],
                            headless=False)
         self.main_window.get_db_and_spider_handles(spider)
+        account = load_cfg('s1_account.ini')
+        if len(account) > 0:
+            self.main_window.auto_fill_user_info(account['user'], account['pwd'])
 
     def init_threads(self):
         # todo 施工中，待修改为多进程版本——界面不单开进程会卡住，目前先凑合 2020/07/10
