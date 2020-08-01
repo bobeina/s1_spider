@@ -11,6 +11,7 @@ from PySide2.QtGui import QStandardItemModel, QStandardItem
 
 from ABSBTWidget import ABSBTWidget
 from bt_errors import LoadUIFailError
+from table_model import MyTableModel
 
 # windows
 # from source_path_window import SourcePathWindow
@@ -33,6 +34,10 @@ class MainWindow(ABSBTWidget):
 
     def get_db_and_spider_handles(self, spider):
         self.spider = spider
+
+    def init_data_mode(self, data_list, header):
+        self.table_model = MyTableModel(self.handle, data_list, header)
+        self.handle.tableView.setModel(self.table_model)
 
     @Slot()
     def get_thread(self):
@@ -95,3 +100,9 @@ class MainWindow(ABSBTWidget):
     def auto_fill_user_info(self, user, pwd):
         self.handle.lineEditUser.setText(user)
         self.handle.lineEditPwd.setText(pwd)
+
+    def get_threads_and_fill(self, offset=0, num=20):
+        data = self.spider.pgdb.load_thread_list(offset=offset, num=num)
+        self.data_mode.load_data(data)
+        # self.data_mode = data
+        # self.table_view = self.handle.tableView

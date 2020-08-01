@@ -196,6 +196,31 @@ class PgDB:
     def update_author(self):
         pass
 
+    def load_thread_list(self, offset=0, num=20):
+        # sql_str = "SELECT DISTINCT id,thread_id,post_title,author " +\
+        #           "FROM raw_post " + \
+        #           "LIMIT %s OFFSET %s"
 
+        # sql_str = "SELECT min(id),thread_id,post_title,author " +\
+        #           "FROM raw_post " + \
+        #           "GROUP BY thread_id, post_title, author " + \
+        #           "LIMIT %s OFFSET %s;"
 
+        # sql_str = "SELECT id, thread_id,post_title,author FROM raw_post " + \
+        #           "WHERE id=(SELECT min(id) FROM raw_post GROUP BY thread_id) " + \
+        #           "LIMIT %s OFFSET %s;"
+        # self.cursor.execute(sql_str, (num, offset,))
+
+        # SELECT brand, size, sum(sales) FROM items_sold GROUP BY GROUPING SETS ((brand), (size), ());
+
+        sql_str = "SELECT id, thread_id, post_title, author " + \
+                  "FROM raw_post " + \
+                  "WHERE id IN " + \
+                  "(SELECT min(id) FROM raw_post GROUP BY thread_id) " + \
+                  "LIMIT %s OFFSET %s;"
+        self.cursor.execute(sql_str, (num, offset,))
+        # result = self.cursor.fetchone()
+        result = self.cursor.fetchall()
+        print('load_contents() result: ', result)
+        return result
 

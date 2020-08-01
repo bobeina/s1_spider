@@ -80,6 +80,9 @@ class S1PostsInfoExtractor:
         self.browser.switch_to.window(self.main_tab)
         time.sleep(1)
 
+    def __del__(self):
+        self.browser.quit()
+
     def auto_login(self, usernm=None, pwd=None):
         if usernm is None or pwd is None:
             print('Sorry, usernm/pwd cannot be None with auto_login().')
@@ -376,7 +379,10 @@ class S1PostsInfoExtractor:
         editor_nick, edited_time = self.extract_edited_info(post)
         raw_content = self.extract_raw_content(post)
         floor, post_time, post_id = self.extract_post_time(post)
-        post_title = self.extract_post_title(post)
+        if floor == 1:
+            post_title = self.extract_thread_subject()
+        else:
+            post_title = self.extract_post_title(post)
         scores = []
         has_score = self.if_post_has_score(post)
         if has_score == True:

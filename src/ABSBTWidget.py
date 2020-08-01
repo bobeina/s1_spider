@@ -16,6 +16,8 @@ class ABSBTWidget(object):
 
     def __init__(self, path, ui_name):
         self.handle = None
+        self.data_mode = None
+        # self.table_view = None
 
         ui_file_name = os.path.join(path, ui_name)
         ui_file = QFile(ui_file_name)

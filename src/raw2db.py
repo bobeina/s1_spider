@@ -91,7 +91,6 @@ class RawToDB:
             if little_tail == 0:
                 page += 1
             last_post_id = self.pgdb.get_last_post_id(thread_id) #, post_num, page)
-
             gen_func = self.extractor.continue_thread(thread_id, last_post_id, page)
             # 从数据库中获取该帖总数
         else:

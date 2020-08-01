@@ -55,6 +55,10 @@ class MyInterFace:
         if len(account) > 0:
             self.main_window.auto_fill_user_info(account['user'], account['pwd'])
 
+        header = ["ID", "Thread ID", "Post Title", "Author"]
+        data = spider.pgdb.load_thread_list()
+        self.main_window.init_data_mode(data, header)
+
     def init_threads(self):
         # todo 施工中，待修改为多进程版本——界面不单开进程会卡住，目前先凑合 2020/07/10
         self.que = Queue()
